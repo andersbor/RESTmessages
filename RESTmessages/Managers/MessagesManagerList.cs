@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using RESTmessages.Models;
 
 namespace RESTmessages.Managers
@@ -9,20 +10,31 @@ namespace RESTmessages.Managers
         private static int _nextCommentId = 1;
         private static readonly List<Message> Data = new List<Message>
         {
-            new Message {Id = _nextMessageId++, Content = "My first message", User ="anders", Comments = new List<Comment>()},
-            new Message {Id=_nextMessageId++, Content = "Second message", User = "Anders", Comments = new List<Comment>()}
-        };
+            new Message {Id = _nextMessageId++, Content = "My first message", User ="anders",
+                Comments = new List<Comment>
+                {
+                    new Comment {Id = _nextCommentId++,Content = "Nice", MessageId = _nextMessageId-1, User = "anbo"},
+                    new Comment{ Id = _nextCommentId++, Content = "Nice 2", MessageId = _nextMessageId-1, User = "Tump" }
+                    }
+                },
+            new Message {Id=_nextMessageId++, Content = "Second message", User = "Anders", Comments = new List<Comment>()
+    }
+};
 
         public List<Message> GetAll()
         {
-            return new List<Message>(Data); // copy constructor
+            List<Message> messages = new List<Message>(Data);
+            messages.Sort((message, message1) => message1.Id - message.Id);
+            return messages; // copy constructor
         }
 
         public List<Comment> GetComments(int messageId)
         {
             Message message = Data.Find(m => m.Id == messageId);
             if (message == null) return null;
-            return message.Comments;
+            List<Comment> comments = message.Comments;
+            comments.Sort((comment, comment1) => comment1.Id - comment.Id);
+            return comments;
         }
 
         public Message AddMessage(Message message)

@@ -6,7 +6,7 @@
         public int MessageId { get; set; }
         public string Content { get; set; }
 
-        public string user { get; set; }
+        public string User { get; set; }
 
         public override string ToString()
         {
