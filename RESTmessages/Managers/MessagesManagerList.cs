@@ -4,20 +4,22 @@ using RESTmessages.Models;
 
 namespace RESTmessages.Managers
 {
-    public class MessagesManagerList
+    
+
+    public class MessagesManagerList : IMessagesManager
     {
         private static int _nextMessageId = 1;
         private static int _nextCommentId = 1;
         private static readonly List<Message> Data = new List<Message>
         {
-            new Message {Id = _nextMessageId++, Content = "My first message", User ="anders",
+            new Message {Id = _nextMessageId++, Content = "I love apple pie", User ="anders",
                 Comments = new List<Comment>
                 {
-                    new Comment {Id = _nextCommentId++,Content = "Nice", MessageId = _nextMessageId-1, User = "anbo"},
-                    new Comment{ Id = _nextCommentId++, Content = "Nice 2", MessageId = _nextMessageId-1, User = "Tump" }
+                    new Comment {Id = _nextCommentId++,Content = "So do I", MessageId = _nextMessageId-1, User = "anbo"},
+                    new Comment{ Id = _nextCommentId++, Content = "Mums", MessageId = _nextMessageId-1, User = "Tump" }
                     }
                 },
-            new Message {Id=_nextMessageId++, Content = "Second message", User = "Anders", Comments = new List<Comment>()
+            new Message {Id=_nextMessageId++, Content = "Nice weather", User = "Anders", Comments = new List<Comment>()
     }
 };
 
