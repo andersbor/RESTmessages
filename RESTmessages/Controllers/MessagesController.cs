@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using RESTmessages.Managers;
 using RESTmessages.Models;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace RESTmessages.Controllers
 {
@@ -14,14 +9,14 @@ namespace RESTmessages.Controllers
     [ApiController]
     public class MessagesController : ControllerBase
     {
-        private readonly MessagesManagerList _manager = new MessagesManagerList();
+        private readonly IMessagesManager _manager = new MessagesManagerDatabase(); //  new MessagesManagerList();
 
 
         // GET: api/<MessagesController>
         [HttpGet]
         public IEnumerable<Message> Get()
         {
-            return _manager.GetAll();
+            return _manager.GetAllMessages();
         }
 
         // GET api/<MessagesController>/5
