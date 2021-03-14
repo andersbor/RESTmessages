@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using RESTmessages.Models;
 
 namespace RESTmessages.Managers
 {
     public class MessagesManagerList //: IMessagesManager
     {
+        // NOT USED at the moment!!
+        // TODO implement IMessagesManager
         private static int _nextMessageId = 1;
         private static int _nextCommentId = 1;
         private static readonly List<Message> Data = new List<Message>

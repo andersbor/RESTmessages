@@ -14,9 +14,9 @@ namespace RESTmessages.Controllers
 
         // GET: api/<MessagesController>
         [HttpGet]
-        public IEnumerable<Message> Get()
+        public IEnumerable<Message> Get([FromQuery] string user)
         {
-            return _manager.GetAllMessages();
+            return _manager.GetAllMessages(user);
         }
 
         // GET api/<MessagesController>/5
@@ -27,9 +27,9 @@ namespace RESTmessages.Controllers
         }*/
 
         [HttpGet("{messageId}/comments")]
-        public List<Comment> GetComments(int messageId)
+        public List<Comment> GetComments(int messageId, string user=null)
         {
-            return _manager.GetComments(messageId);
+            return _manager.GetComments(messageId, user);
         }
 
         // POST api/<MessagesController>

@@ -5,8 +5,8 @@ namespace RESTmessages.Managers
 {
     public interface IMessagesManager
     {
-        List<Message> GetAllMessages();
-        List<Comment> GetComments(int messageId);
+        List<Message> GetAllMessages(string user=null);
+        List<Comment> GetComments(int messageId, string user=null);
         Message AddMessage(Message message);
         Comment AddComment(int messageId, Comment comment);
         Message DeleteMessage(int messageId);

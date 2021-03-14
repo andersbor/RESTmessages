@@ -9,18 +9,26 @@ namespace RESTmessages.Managers
     {
         private const string ConnectionString = Secrets.ConnectionString;
 
-        public List<Message> GetAllMessages()
+        public List<Message> GetAllMessages(string user = null)
         {
             string selectString =
                 @"select twistermessage.*, 
                 (select count(*) from twistercomment 
-                where twistercomment.messageId = twistermessage.id) as tot from twistermessage 
-                order by twistermessage.id desc";
+                where twistercomment.messageId = twistermessage.id) as tot from twistermessage ";
+            if (user != null)
+            {
+                selectString += "where [user]=@user ";
+            }
+            selectString += "order by twistermessage.id desc";
             using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 conn.Open();
                 using (SqlCommand command = new SqlCommand(selectString, conn))
                 {
+                    if (user != null)
+                    {
+                        command.Parameters.AddWithValue("@user", user);
+                    }
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         List<Message> result = new List<Message>();
@@ -51,16 +59,24 @@ namespace RESTmessages.Managers
             return message;
         }
 
-        public List<Comment> GetComments(int messageId)
+        public List<Comment> GetComments(int messageId, string user = null)
         {
-            string selectString =
-                "select * from twistercomment where messageId = @messageId order by id desc";
+            string selectString = "select * from twistercomment where messageId = @messageId ";
+            if (user != null)
+            {
+                selectString += " and [user]=@user ";
+            }
+            selectString += "order by id desc";
             using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 conn.Open();
                 using (SqlCommand command = new SqlCommand(selectString, conn))
                 {
                     command.Parameters.AddWithValue("@messageId", messageId);
+                    if (user != null)
+                    {
+                        command.Parameters.AddWithValue("@user", user);
+                    }
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         List<Comment> result = new List<Comment>();
