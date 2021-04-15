@@ -11,7 +11,6 @@ namespace RESTmessages.Controllers
     {
         private readonly IMessagesManager _manager = new MessagesManagerDatabase(); //  new MessagesManagerList();
 
-
         // GET: api/<MessagesController>
         [HttpGet]
         public IEnumerable<Message> Get([FromQuery] string user)
@@ -27,7 +26,7 @@ namespace RESTmessages.Controllers
         }*/
 
         [HttpGet("{messageId}/comments")]
-        public List<Comment> GetComments(int messageId, string user=null)
+        public List<Comment> GetComments(int messageId, [FromQuery] string user = null)
         {
             return _manager.GetComments(messageId, user);
         }

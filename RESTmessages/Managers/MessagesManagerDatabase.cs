@@ -96,11 +96,13 @@ namespace RESTmessages.Managers
             int id = reader.GetInt32(0);
             string content = reader.GetString(1);
             string user = reader.GetString(2);
+            int messageId = reader.GetInt32(3);
             Comment comment = new Comment
             {
                 Id = id,
                 Content = content,
                 User = user,
+                MessageId = messageId
             };
             return comment;
         }
