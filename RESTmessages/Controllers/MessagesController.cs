@@ -18,6 +18,12 @@ namespace RESTmessages.Controllers
             return _manager.GetAllMessages(user);
         }
 
+        [HttpGet("latest")]
+        public Message Get()
+        {
+            return _manager.GetLatestMessage();
+        }
+
         // GET api/<MessagesController>/5
         /*[HttpGet("{id}")]
         public string Get(int id)

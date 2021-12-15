@@ -43,8 +43,28 @@ namespace RESTmessages.Managers
             }
         }
 
+        public Message GetLatestMessage()
+        {
+            string selectStr = @"select top 1 twistermessage.*, 
+                (select count(*) from twistercomment 
+                where twistercomment.messageId = twistermessage.id) as tot from twistermessage ";
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand command = new SqlCommand(selectStr, conn))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        
+                        return ReadMessage(reader);
+                    }
+                }
+            }
+        }
+
         private Message ReadMessage(SqlDataReader reader)
         {
+            if (!reader.Read()) return null;
             int id = reader.GetInt32(0);
             string content = reader.GetString(1);
             string user = reader.GetString(2);
