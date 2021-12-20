@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Reflection.Metadata.Ecma335;
 using RESTmessages.Models;
 
 namespace RESTmessages.Managers
@@ -14,7 +15,8 @@ namespace RESTmessages.Managers
             string selectString =
                 @"select twistermessage.*, 
                 (select count(*) from twistercomment 
-                where twistercomment.messageId = twistermessage.id) as tot from twistermessage ";
+                where twistercomment.messageId = twistermessage.id) as tot 
+                from twistermessage ";
             if (user != null)
             {
                 selectString += "where [user]=@user ";
@@ -47,7 +49,8 @@ namespace RESTmessages.Managers
         {
             string selectStr = @"select top 1 twistermessage.*, 
                 (select count(*) from twistercomment 
-                where twistercomment.messageId = twistermessage.id) as tot from twistermessage ";
+                where twistercomment.messageId = twistermessage.id) as tot from twistermessage 
+                order by twistermessage.id desc";
             using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 conn.Open();
@@ -55,7 +58,7 @@ namespace RESTmessages.Managers
                 {
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        
+                        if (!reader.Read()) return null;
                         return ReadMessage(reader);
                     }
                 }
@@ -64,7 +67,7 @@ namespace RESTmessages.Managers
 
         private Message ReadMessage(SqlDataReader reader)
         {
-            if (!reader.Read()) return null;
+            //if (!reader.Read()) return null;
             int id = reader.GetInt32(0);
             string content = reader.GetString(1);
             string user = reader.GetString(2);
